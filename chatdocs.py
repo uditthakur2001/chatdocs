@@ -1,5 +1,4 @@
 # ======================= Import Section =======================
-
 import streamlit as st
 import psycopg2
 import bcrypt
@@ -8,8 +7,8 @@ import time
 import re  # Import regex for email validation
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
-# from langchain.vectorstores import FAISS
-from langchain_community.vectorstores import FAISS
+# from langchain.vectorstores import FAISS    #use this for local
+from langchain_community.vectorstores import FAISS    # type: ignore     #use this for deploying on streamlit and remove type ignore
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from PyPDF2 import PdfReader
@@ -39,6 +38,7 @@ def connect_db():
         host=st.secrets["database"]["DB_HOST"],
         port=st.secrets["database"]["DB_PORT"]
     )
+
 
 # ======================= Email Handling =======================
 
@@ -168,8 +168,8 @@ def delete_chat_history_pdf(user_id, pdf_name):
     cursor.close()
     conn.close()
 
-# ======================= User Account Management =======================
 
+# ======================= User Account Management =======================
 
 # 🔹 Delete User Account
 def delete_account(user_id):
@@ -198,6 +198,7 @@ def get_admin_username(user_id):
 # 🔹 User Session Management
 if "user_id" not in st.session_state:
     st.session_state["user_id"] = None
+
 
 # ======================= Sidebar Chat History =======================
 
